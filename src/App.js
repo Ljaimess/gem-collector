@@ -34,9 +34,23 @@ class App extends Component {
     this.setState({target_score: newTarget, crystal_values: newValue})
   };
 
-  handleClick = (id,value) => {
+  handleClick = (id, value) => {
     console.log(`in handleClick ${id} ${value}`)
-  }; 
+    //adds to your scoreand check win lose condition, make sure all score are named properly
+    let newScore = this.state.your_score + value
+    if(newScore === this.state.target_score) {
+      let newWins = this.state.wins + 1
+      this.setState({your_score: 0, wins: newWins})
+      this.update()
+    } else if (newScore > this.state.target_score) {
+      let newLoses = this.state.loses + 1
+      this.setState({your_score: 0, loses: newLoses})
+      this.update()
+    } else {
+      this.setState({your_score : newScore})
+    }
+    // this.setState({ your_score : this.state.your_score + value });
+  }
   
 
   render() {
@@ -45,8 +59,8 @@ class App extends Component {
         <Navbar />
         <Header />
         <Scores
-          target={this.state.target_score}
-          yourScore={this.state.your_score}
+          targetDisp={this.state.target_score}
+          yourScoreDisp={this.state.your_score}
         />
         <Wrapper>
           {this.state.crystals.map(crystal =>(
